@@ -40,21 +40,38 @@ function getOrders() {
   return [
     {
       id: 'fd105551-0f0d-4a9f-bc41-c559c8a17260',
-      client: 'John Doe',
-      address: '123 Main Street, London',
+      clientId: 'fd105551-0f0d-4a9f-bc41-c589c8a17261',
       productId: 'fd105551-0f0d-4a9f-bc41-c559c8a17256',
     },
     {
       id: 'fd105551-0f0d-4a9f-bc41-c559c8a17261',
-      client: 'Jane Doe',
-      address: '123 Main Street, London',
+      clientId: 'fd105551-0f0d-4a9f-bc41-c589c8a17261',
       productId: 'fd105551-0f0d-4a9f-bc41-c559c8a17256',
     },
     {
       id: 'fd105551-0f0d-4a9f-bc41-c559c8a17262',
-      client: 'Thomas Jefferson',
-      address: 'Baker Street 12B, New York',
+      clientId: 'fd105553-0f0d-4a9f-bc41-c559c8a24444',
       productId: '01c7599d-318b-4b9f-baf7-51f3a936a2d4',
+    },
+  ];
+}
+
+function getClients() {
+  return [
+    {
+      id: 'fd105551-0f0d-4a9f-bc41-c589c8a17261',
+      name: 'John Doe',
+      address: '123 Main Street, London',
+    },
+    {
+      id: 'fd105552-0f0d-4a9f-bc41-c559c8a17261',
+      name: 'Jane Doe',
+      address: '123 Main Street, London',
+    },
+    {
+      id: 'fd105553-0f0d-4a9f-bc41-c559c8a24444',
+      name: 'Thomas Jefferson',
+      address: 'Baker Street 12B, New York',
     },
   ];
 }
@@ -67,12 +84,21 @@ async function seed() {
   );
 
   await Promise.all(
-    getOrders().map(({ productId, ...orderData }) => {
+    getClients().map((client) => {
+      return db.client.create({ data: client });
+    }),
+  );
+
+  await Promise.all(
+    getOrders().map(({ productId, clientId, ...orderData }) => {
       return db.order.create({
         data: {
           ...orderData,
           product: {
             connect: { id: productId },
+          },
+          client: {
+            connect: { id: clientId },
           },
         },
       });
