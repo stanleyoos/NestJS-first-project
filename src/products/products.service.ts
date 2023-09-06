@@ -12,19 +12,23 @@ export class ProductsService {
     return db.products.find((product) => product.id === id);
   }
 
-  public deleteProduct(id: Product['id']): { success: boolean } {
+  public deleteProduct(id: Product['id']) {
     const index = db.products.findIndex((product) => product.id === id);
-
-    if (index < 0) return { success: false };
-
     db.products.splice(index, 1);
-
-    return { success: true };
   }
 
   public createProduct(productData: Omit<Product, 'id'>): Product {
     const newProduct = { ...productData, id: uuidv4() };
     db.products.push(newProduct);
     return newProduct;
+  }
+
+  public editProduct(
+    id: Product['id'],
+    productData: Omit<Product, 'id'>,
+  ): void {
+    db.products = db.products.map((product) =>
+      product.id === id ? { ...product, ...productData } : product,
+    );
   }
 }
