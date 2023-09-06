@@ -10,7 +10,6 @@ import {
   ParseUUIDPipe,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
-import { Order } from 'src/db';
 import { CreateOrderDTO } from './dtos/create-order.dto';
 import { UpdateOrderDTO } from './dtos/update-order.dto';
 
@@ -19,23 +18,23 @@ export class OrdersController {
   constructor(private orderService: OrdersService) {}
 
   @Get('/')
-  public getAll(): Order[] {
+  async getAll() {
     return this.orderService.getAll();
   }
 
   @Get('/:id')
-  public getById(@Param('id', new ParseUUIDPipe()) id: string): Order | null {
-    const order = this.orderService.getById(id);
+  async getById(@Param('id', new ParseUUIDPipe()) id: string) {
+    const order = await this.orderService.getById(id);
     if (!order) throw new NotFoundException('Order not found');
     return order;
   }
 
   @Delete('/:id')
-  public deleteOrder(@Param('id', new ParseUUIDPipe()) id: string) {
-    if (!this.orderService.getById(id)) {
+  async deleteOrder(@Param('id', new ParseUUIDPipe()) id: string) {
+    if (!(await this.orderService.getById(id))) {
       throw new NotFoundException('Product not found');
     }
-    this.orderService.deleteOrder(id);
+    await this.orderService.deleteOrder(id);
     return { success: true };
   }
 
@@ -45,15 +44,15 @@ export class OrdersController {
   }
 
   @Put('/:id')
-  public editOrder(
+  async editOrder(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() orderData: UpdateOrderDTO,
-  ): { success: boolean } {
-    if (!this.orderService.getById(id)) {
+  ) {
+    if (!(await this.orderService.getById(id))) {
       throw new NotFoundException('Product not found');
     }
 
-    this.orderService.editOrder(id, orderData);
+    await this.orderService.editOrder(id, orderData);
     return { success: true };
   }
 }
