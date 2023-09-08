@@ -44,14 +44,14 @@ function getOrders() {
       productId: 'fd105551-0f0d-4a9f-bc41-c559c8a17256',
     },
     {
-      id: 'fd105551-0f0d-4a9f-bc41-c559c8a17261',
-      clientId: 'fd105551-0f0d-4a9f-bc41-c589c8a17261',
-      productId: 'fd105551-0f0d-4a9f-bc41-c559c8a17256',
+      id: 'fd105552-0f0d-4a9f-bc41-c559c8a17261',
+      clientId: 'fd105552-0f0d-4a9f-bc41-c559c8a17261',
+      productId: 'c920c7b9-a67d-4edb-8ce7-e3c9f3889e56',
     },
     {
-      id: 'fd105551-0f0d-4a9f-bc41-c559c8a17262',
+      id: 'fd105553-0f0d-4a9f-bc41-c559c8a17262',
       clientId: 'fd105553-0f0d-4a9f-bc41-c559c8a24444',
-      productId: '01c7599d-318b-4b9f-baf7-51f3a936a2d4',
+      productId: 'fd105551-0f0d-4a9f-bc41-c559c8a17258',
     },
   ];
 }
